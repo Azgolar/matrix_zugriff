@@ -1,0 +1,17 @@
+[package]
+name = "matrix_zugriffszeit"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+core_affinity = "0.8"
+rand = "0.9"
+
+[dev-dependencies]
+# Criterion mit Ergebnissen in HTML benutzen
+criterion = {version = "0.6", features = ["html_reports"]}
+
+[[bench]]
+name = "benchmark"
+# main Funktion von Criterion verwenden, da die native Rust main für Benchmarks noch immer nicht stabil ist
+harness= false
