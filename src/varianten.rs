@@ -1,4 +1,4 @@
-use zahlentyp::Zahlentyp;
+use crate::zahlentyp::Zahlentyp;
 
 /*
     Variante mit der Standardimplementation
@@ -93,12 +93,12 @@ pub fn slice_assert<T: Zahlentyp>(a: &[Vec<T>], b: &[Vec<T>], c: &mut [Vec<T>], 
 /*
     Variante mit iterator
 */
-pub fn iteartor<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
+pub fn mit_iteartor<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
 
-    a.iter().enumerate().for_each(|i, zeile| {
+    a.iter().enumerate().for_each(|(i, zeile): (usize, &Vec<T>)| {
         (0..n).for_each(|j| {
             let mut summe = T::default();
-            zeile.iter().enumerate().for_each(|k, &wert| {
+            zeile.iter().enumerate().for_each(|(k, &wert): (usize, &T)| {
                 summe = summe + wert * b[k][j];
             });
             c[i][j] = summe;
@@ -109,7 +109,7 @@ pub fn iteartor<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<
 /*
     Variante mit iterator und assert
 */
-pub fn iterator_assert<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
+pub fn mit_iterator_assert<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
 
     assert_eq!(a.len(), n);
     assert_eq!(b.len(), n);
@@ -120,10 +120,10 @@ pub fn iterator_assert<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut V
         assert_eq!(c[i].len(), n);
     }
 
-    a.iter().enumerate().for_each(|i, zeile| {
+    a.iter().enumerate().for_each(|(i, zeile): (usize, &Vec<T>)| {
         (0..n).for_each(|j| {
             let mut summe = T::default();
-            zeile.iter().enumerate().for_each(|k, &wert| {
+            zeile.iter().enumerate().for_each(|(k, &wert): (usize, &T)| {
                 summe = summe + wert * b[k][j];
             });
             c[i][j] = summe;
@@ -184,7 +184,7 @@ pub fn unsicher<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<
             for j in 0..n {
                 let mut summe = T::default();
                 for k in 0..n {
-                    summe = summe + a.get_unchecked(i).get_unchecked(k) * b.get_unchecked(k).get_unchecked(j);
+                    summe = summe + *a.get_unchecked(i).get_unchecked(k) * *b.get_unchecked(k).get_unchecked(j);
                 }
                 *c.get_unchecked_mut(i).get_unchecked_mut(j) = summe;
             }

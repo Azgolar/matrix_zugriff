@@ -12,16 +12,22 @@ pub trait Zahlentyp: Copy + Default + Add<Output = Self> + Mul<Output = Self> {
     // gibt einen String mit Datentyp zurück
     fn type_name() -> &'static str;
 
-    // erzeugt einen Zufallswert des jeweiligen Datentyps
-    fn zufallswert(anzahl: usize) -> Vec<Self>;
+    // erzeugt für eine Matriz alle benötigten Zufallswerte des jeweiligen Datentyps
+    fn zufallswerte(anzahl: usize) -> Vec<Vec<Self>>;
 } 
 
 // Implemtierung des Traits für unsigned 32 bit 
 impl Zahlentyp  for u32 {
     fn type_name() -> &'static str{"u32"}
 
-    fn zufallswert() -> Self {
-        random_range(1..9)
+    fn zufallswerte(anzahl: usize) -> Vec<Vec<Self>> {
+        let mut zufall: Vec<Vec<u32>> = vec![vec![0; anzahl]; anzahl];
+        for i in 0..anzahl {
+            for j in 0.. anzahl {
+                zufall[i][j] = random_range(1..=9);  
+            }   
+        }
+        zufall
     }
 }
 
@@ -29,8 +35,14 @@ impl Zahlentyp  for u32 {
 impl Zahlentyp  for u64 {
     fn type_name() -> &'static str{"u64"}
 
-    fn zufallswert() -> Self {
-        random_range(1..99)
+    fn zufallswerte(anzahl: usize) -> Vec<Vec<Self>> {
+        let mut zufall: Vec<Vec<u64>> = vec![vec![0; anzahl]; anzahl];
+        for i in 0..anzahl {
+            for j in 0.. anzahl {
+                zufall[i][j] = random_range(1..=99);  
+            }   
+        }
+        zufall
     }
 }
 
@@ -38,8 +50,14 @@ impl Zahlentyp  for u64 {
 impl Zahlentyp  for i32 {
     fn type_name() -> &'static str{"i32"}
 
-    fn zufallswert() -> Self {
-        random_range(1..9)
+    fn zufallswerte(anzahl: usize) -> Vec<Vec<Self>> {
+        let mut zufall: Vec<Vec<i32>> = vec![vec![0; anzahl]; anzahl];
+        for i in 0..anzahl {
+            for j in 0.. anzahl {
+                zufall[i][j] = random_range(1..=9);  
+            }   
+        }
+        zufall
     }
 }
 
@@ -47,8 +65,14 @@ impl Zahlentyp  for i32 {
 impl Zahlentyp  for i64 {
     fn type_name() -> &'static str{"i64"}
 
-    fn zufallswert() -> Self {
-        random_range(1..99)
+    fn zufallswerte(anzahl: usize) -> Vec<Vec<Self>> {
+        let mut zufall: Vec<Vec<i64>> = vec![vec![0; anzahl]; anzahl];
+        for i in 0..anzahl {
+            for j in 0.. anzahl {
+                zufall[i][j] = random_range(1..=99);  
+            }   
+        }
+        zufall
     }
 }
 
@@ -56,8 +80,14 @@ impl Zahlentyp  for i64 {
 impl Zahlentyp  for f32 {
     fn type_name() -> &'static str{"f32"}
 
-    fn zufallswert() -> Self {
-        random_range(-1.0..1.0)
+    fn zufallswerte(anzahl: usize) -> Vec<Vec<Self>> {
+        let mut zufall: Vec<Vec<f32>> = vec![vec![0.0; anzahl]; anzahl];
+        for i in 0..anzahl {
+            for j in 0.. anzahl {
+                zufall[i][j] = random_range(-1.0..=1.0);  
+            }   
+        }
+        zufall
     }
 }
 
@@ -65,7 +95,13 @@ impl Zahlentyp  for f32 {
 impl Zahlentyp  for f64 {
     fn type_name() -> &'static str{"f64"}
 
-    fn zufallswert() -> Self {
-        random_range(-1.0..1.0)
+    fn zufallswerte(anzahl: usize) -> Vec<Vec<Self>> {
+        let mut zufall: Vec<Vec<f64>> = vec![vec![0.0; anzahl]; anzahl];
+        for i in 0..anzahl {
+            for j in 0.. anzahl {
+                zufall[i][j] = random_range(-1.0..=1.0);  
+            }   
+        }
+        zufall
     }
 }
