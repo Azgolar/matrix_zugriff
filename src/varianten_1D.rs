@@ -21,11 +21,10 @@ pub fn basis_1D<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>, n: usize) 
     1D Vektor im Zeilenformat mit len()
 */
 pub fn basis_len_1D<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>) {
-    let n: usize = b.len();
-    let m: usize = a.len();
+    let n: usize = (a.len() as f64).sqrt() as usize;
     for i in 0..n {
         // startindex der i-ten Zeile
-        let start: usize = i * m;
+        let start: usize = i * n;
         for j in 0..n {
             let mut summe: T = T::default();
             for k in 0..n {
