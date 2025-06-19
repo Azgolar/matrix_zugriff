@@ -1,7 +1,7 @@
 use crate::zahlentyp::Zahlentyp;
 
 /*
-    Variante mit der Standardimplementation
+    Standardimplementation
 */
 pub fn basis<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
     for i in 0..n {
@@ -16,9 +16,9 @@ pub fn basis<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>
 }
 
 /*
-    Variante mit der Standardimplementation mit assert
+    Standardimplementation mit assert
 */
-pub fn basis_assert<T: Zahlentyp>(a: &[Vec<T>], b: &[Vec<T>], c: &mut [Vec<T>], n: usize) {
+pub fn assert<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
 
     assert_eq!(a.len(), n);
     assert_eq!(b.len(), n);
@@ -40,19 +40,12 @@ pub fn basis_assert<T: Zahlentyp>(a: &[Vec<T>], b: &[Vec<T>], c: &mut [Vec<T>], 
     }
 }
 
+
 /*
-    Variante mit Slice und assert
+    Standardimplementation mit Slice
 */
 pub fn slice<T: Zahlentyp>(a: &[Vec<T>], b: &[Vec<T>], c: &mut [Vec<T>], n: usize) {
 
-    assert_eq!(a.len(), n);
-    assert_eq!(b.len(), n);
-    assert_eq!(c.len(), n);
-    for i in 0..n {
-        assert_eq!(a[i].len(), n);
-        assert_eq!(b[i].len(), n);
-        assert_eq!(c[i].len(), n);
-    }
 
     for i in 0..n {
         for j in 0..n {
@@ -65,118 +58,103 @@ pub fn slice<T: Zahlentyp>(a: &[Vec<T>], b: &[Vec<T>], c: &mut [Vec<T>], n: usiz
     }
 }
 
-/*
-    Variante mit Slice und assert
-*/
-pub fn slice_assert<T: Zahlentyp>(a: &[Vec<T>], b: &[Vec<T>], c: &mut [Vec<T>], n: usize) {
 
-    assert_eq!(a.len(), n);
-    assert_eq!(b.len(), n);
-    assert_eq!(c.len(), n);
-    for i in 0..n {
-        assert_eq!(a[i].len(), n);
-        assert_eq!(b[i].len(), n);
-        assert_eq!(c[i].len(), n);
-    }
-
-    for i in 0..n {
-        for j in 0..n {
-            let mut summe = T::default();
-            for k in 0..n {
-                summe = summe + a[i][k] * b[k][j];
-            }
-            c[i][j] = summe;
-        }
-    }
-}
 
 /*
     Variante mit iterator
 */
 pub fn mit_iteartor<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
-
-    a.iter().enumerate().for_each(|(i, zeile): (usize, &Vec<T>)| {
-        (0..n).for_each(|j| {
-            let mut summe = T::default();
-            zeile.iter().enumerate().for_each(|(k, &wert): (usize, &T)| {
-                summe = summe + wert * b[k][j];
-            });
-            c[i][j] = summe;
-        });
-    }); 
-}
-
-/*
-    Variante mit iterator und assert
-*/
-pub fn mit_iterator_assert<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
-
-    assert_eq!(a.len(), n);
-    assert_eq!(b.len(), n);
-    assert_eq!(c.len(), n);
-    for i in 0..n {
-        assert_eq!(a[i].len(), n);
-        assert_eq!(b[i].len(), n);
-        assert_eq!(c[i].len(), n);
-    }
-
-    a.iter().enumerate().for_each(|(i, zeile): (usize, &Vec<T>)| {
-        (0..n).for_each(|j| {
-            let mut summe = T::default();
-            zeile.iter().enumerate().for_each(|(k, &wert): (usize, &T)| {
-                summe = summe + wert * b[k][j];
-            });
-            c[i][j] = summe;
-        });
-    }); 
-}
-
-/*
-    Variante mit 1D Vektor
-*/
-pub fn einD<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>, n: usize) {
-    for i in 0..n {
-        let offset = i * n;
-        for j in 0..n {
+    /*
+        Es werden die ersten n Zeilen durchlaufen, dabei gilt (zeilenindex, Referenz auf aktuelle Zeile)
+    */
+    for (i, zeile) in a.iter().enumerate().take(n) {
+        /*
+            Schleife über die Spalten von c, dabei gilt (spaltenindex, Referenz auf aktuelle Element in c)
+         */
+        for (j, ergebnis) in c[i].iter_mut().enumerate().take(n) {
             let mut summe = T::default();
             for k in 0..n {
-                summe = summe + a[offset + k] * b[k * n + j];
+                summe = summe + zeile[k] * b[k][j];
             }
-            c[offset + j] = summe;
+            *ergebnis = summe;
         }
     }
 }
 
 /*
-    Variante mit 1D Vektor und assert
+    1D Vektor im Zeilenformat
 */
-pub fn einD_assert<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>, n: usize) {
-
-    assert_eq!(a.len(), n * n);
-    assert_eq!(b.len(), n * n);
-    assert_eq!(c.len(), n * n);
-
+pub fn ein_dimensional_zeilenformat<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>, n: usize) {
     for i in 0..n {
-        let offset = i * n;
+        // startindex der i-ten Zeile
+        let start: usize = i * n;
         for j in 0..n {
             let mut summe = T::default();
             for k in 0..n {
-                summe = summe + a[offset + k] * b[k * n + j];
+                summe = summe + a[start + k] * b[k * n + j];
             }
-            c[offset + j] = summe;
+            c[start + j] = summe;
         }
     }
 }
 
 /*
-    Variante mit unsafe
+    1D Vektor im Spaltenformat
+*/
+pub fn ein_dimensional_spaltenformat<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>, n: usize) {
+    for i in 0..n {
+        for j in 0..n {
+            // startindex der j-ten Spalte
+            let start: usize = j * n;
+            let mut summe = T::default();
+            for k in 0..n {
+                summe = summe + a[k * n + i] * b[start + k];
+            }
+            c[start + i] = summe;
+        }
+    }
+}
 
-    get_unchecked verhindert den Zugriffscheck bei Vektoren 
+/*
+    split_at für sicheren Zugriff
+
+    split_at(n) gibt ein Tupel aus Slices zurück:
+    - Das erste Element ist ein Slice (Referenz) auf die Zeilen 0 bis n-1
+    - Das zweite Element ist ein Slice (Referenz) ab Zeile n bis zur letzten Zeile der Matrix
+
+    --> da die Matrizen immer nur n Zeilen haben, ist das zweite Slice überflüssig
+    
+*/
+pub fn teilen<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
+    let (b_geteilt, _): (&[Vec<T>], &[Vec<T>]) = b.split_at(n);
+
+    for i in 0..n {
+        // aufteilen der aktuellen Zeilen in a und c
+        let (a_zeile, _): (&[T], &[T]) = a[i].split_at(n);
+        let (c_zeile, _): (&mut [T], &mut [T]) = c[i].split_at_mut(n);
+
+        for j in 0..n {
+            let mut summe = T::default();
+            for k in 0..n {
+                // a_zeile[k] enthält das k-te Element in Zeile i
+                summe = summe + a_zeile[k] * b_geteilt[k][j];
+            }
+            // Ersetzen des aktuellen Werts in Zeile in bei Position j
+            c_zeile[j] = summe;
+        }
+    }
+}
+
+
+/*
+    unsafe
+
+    get_unchecked verhindert den Zugriffscheck 
     --> Der Compiler kann nicht garantieren dass die Indizes innerhalb der Grenzen sind
     --> Sicherheit ist nicht garantiert
-    --> unsafe Block notwendig
+    --> unsafe notwendig
 
-    falsche Indizes führe also zu undefiniertem Verhalten oder Programmabsturz.
+    falsche Indizes führt also zu undefiniertem Verhalten oder Programmabsturz
 */
 pub fn unsicher<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize)  {
     unsafe {
