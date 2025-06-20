@@ -3,7 +3,7 @@ use crate::zahlentyp::Zahlentyp;
 /*
     Standardimplementation
 */
-pub fn basis_2D<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
+pub fn basis_2d<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
     for i in 0..n {
         for j in 0..n {
             let mut summe = T::default();
@@ -18,7 +18,7 @@ pub fn basis_2D<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<
 /*
     Standardimplementation mit .len() im Schleifenkopf
 */
-pub fn basis_lenge_2D<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>) {
+pub fn basis_lenge_2d<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>) {
     for i in 0..a.len() {
         for j in 0..b.len() {
             let mut summe = T::default();
@@ -33,7 +33,7 @@ pub fn basis_lenge_2D<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Ve
 /*
     Standardimplementation mit Slice
 */
-pub fn slice_2D<T: Zahlentyp>(a: &[Vec<T>], b: &[Vec<T>], c: &mut [Vec<T>], n: usize) {
+pub fn slice_2d<T: Zahlentyp>(a: &[Vec<T>], b: &[Vec<T>], c: &mut [Vec<T>], n: usize) {
 
 
     for i in 0..n {
@@ -51,7 +51,7 @@ pub fn slice_2D<T: Zahlentyp>(a: &[Vec<T>], b: &[Vec<T>], c: &mut [Vec<T>], n: u
 /*
     Variante mit iterator
 */
-pub fn iteartor_2D<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
+pub fn iteartor_2d<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
     /*
         Es werden die ersten n Zeilen durchlaufen, dabei gilt (zeilenindex, Referenz auf aktuelle Zeile)
     */
@@ -80,7 +80,7 @@ pub fn iteartor_2D<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<V
     --> da die Matrizen immer nur n Zeilen haben, ist das zweite Slice überflüssig
     
 */
-pub fn split_2D<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
+pub fn split_2d<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
     let (b_geteilt, _): (&[Vec<T>], &[Vec<T>]) = b.split_at(n);
 
     for i in 0..n {
@@ -111,7 +111,7 @@ pub fn split_2D<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<
 
     falsche Indizes führt also zu undefiniertem Verhalten oder Programmabsturz
 */
-pub fn unsicher_2D<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize)  {
+pub fn unsicher_2d<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize)  {
     unsafe {
         for i in 0..n {
             for j in 0..n {

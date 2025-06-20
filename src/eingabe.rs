@@ -3,19 +3,19 @@
     - Die Schrittweite wird adaptiv größer
     - Matrixgrößen mit 2^x Potenzen sind immer enthalten
 */
-pub fn erzeugen(anfang: u32, ende: u32) -> Vec<u32> {
-    let mut liste: Vec<u32> = Vec::new();
+pub fn erzeugen(anfang: usize, ende: usize) -> Vec<usize> {
+    let mut liste: Vec<usize> = Vec::new();
 
     liste.push(anfang);
 
-    let mut letztes: u32 = anfang;
+    let mut letztes: usize  = anfang as usize;
 
     // nächste Zweierpotenz
-    let mut zweier: u32 = 4;
+    let mut zweier: usize = 2;
 
     // Schrittweite festlegen
     while letztes < ende {
-        let schritt: u32 = match letztes {
+        let schritt: usize = match letztes {
             2..=9       => 4,
             10..=99     => 6,
             100..=999   => 100,
@@ -23,7 +23,7 @@ pub fn erzeugen(anfang: u32, ende: u32) -> Vec<u32> {
             _           => 1000  
         };
 
-        let aktuell: u32 = letztes + schritt;
+        let aktuell: usize = letztes + schritt;
 
         // Falls nötig Zweierpotenz hinzufügen
         if zweier > letztes && zweier <= ende && zweier < aktuell {

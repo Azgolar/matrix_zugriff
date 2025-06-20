@@ -18,7 +18,7 @@ pub fn basis_1D<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>, n: usize) 
 }
 
 /*
-    1D Vektor im Zeilenformat mit len()
+    1D Vektor im Zeilenformat mit len() im Schleifenkopf
 */
 pub fn basis_len_1D<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>) {
     let n: usize = (a.len() as f64).sqrt() as usize;
