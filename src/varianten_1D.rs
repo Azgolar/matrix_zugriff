@@ -3,7 +3,7 @@ use crate::zahlentyp::Zahlentyp;
 /*
     1D Vektor im Zeilenformat
 */
-pub fn basis_1D<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>, n: usize) {
+pub fn basis_1d<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>, n: usize) {
     for i in 0..n {
         // startindex der i-ten Zeile
         let start: usize = i * n;
@@ -20,7 +20,7 @@ pub fn basis_1D<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>, n: usize) 
 /*
     1D Vektor im Zeilenformat mit len() im Schleifenkopf
 */
-pub fn basis_len_1D<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>) {
+pub fn basis_lenge_1d<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>) {
     let n: usize = (a.len() as f64).sqrt() as usize;
     for i in 0..n {
         // startindex der i-ten Zeile
@@ -45,7 +45,7 @@ pub fn basis_len_1D<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>) {
     --> da die Matrizen immer nur n Zeilen haben, ist das zweite Slice überflüssig
     
 */
-pub fn split_at_1D<T: Zahlentyp>(mut a: &[T], b: &[T], mut c: &mut [T], n: usize) {
+pub fn split_at_1d<T: Zahlentyp>(mut a: &[T], b: &[T], mut c: &mut [T], n: usize) {
     for _ in 0..n {
         // aufteilen der aktuellen Zeilen in a und c
         let (a_zeile, a_rest): (&[T], &[T]) = a.split_at(n);
@@ -72,7 +72,7 @@ pub fn split_at_1D<T: Zahlentyp>(mut a: &[T], b: &[T], mut c: &mut [T], n: usize
 /*
     1D Vektor mit Slice
 */
-pub fn slice_1D<T: Zahlentyp>(a: &[T], b: &[T], c: &mut [T], n: usize) {
+pub fn slice_1d<T: Zahlentyp>(a: &[T], b: &[T], c: &mut [T], n: usize) {
     for i in 0..n {
         // startindex der i-ten Zeile
         let start: usize = i * n;
@@ -89,7 +89,7 @@ pub fn slice_1D<T: Zahlentyp>(a: &[T], b: &[T], c: &mut [T], n: usize) {
 /*
     1D Vektor mit Iterator
 */
-pub fn iterator_1D<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>, n: usize) {
+pub fn iterator_1d<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>, n: usize) {
 
     // über alle Zeilen in Stücken der Größen n iterieren, dabei gilt (zeilenindex, aktuelle zeile)
     for (i, a_zeile) in a.chunks(n).enumerate() {
@@ -106,7 +106,7 @@ pub fn iterator_1D<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>, n: usiz
 /*
     1D Vektor mit unsafe
 */
-pub fn unsicher_1D<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>, n: usize) {
+pub fn unsicher_1d<T: Zahlentyp>(a: &Vec<T>, b: &Vec<T>, c: &mut Vec<T>, n: usize) {
     unsafe {
         for i in 0..n {
             // startindex der i-ten Zeile

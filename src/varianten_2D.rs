@@ -51,7 +51,7 @@ pub fn slice_2d<T: Zahlentyp>(a: &[Vec<T>], b: &[Vec<T>], c: &mut [Vec<T>], n: u
 /*
     Variante mit iterator
 */
-pub fn iteartor_2d<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
+pub fn iterator_2d<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
     /*
         Es werden die ersten n Zeilen durchlaufen, dabei gilt (zeilenindex, Referenz auf aktuelle Zeile)
     */
@@ -80,7 +80,7 @@ pub fn iteartor_2d<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<V
     --> da die Matrizen immer nur n Zeilen haben, ist das zweite Slice überflüssig
     
 */
-pub fn split_2d<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
+pub fn split_at_2d<T: Zahlentyp>(a: &Vec<Vec<T>>, b: &Vec<Vec<T>>, c: &mut Vec<Vec<T>>, n: usize) {
     let (b_geteilt, _): (&[Vec<T>], &[Vec<T>]) = b.split_at(n);
 
     for i in 0..n {
