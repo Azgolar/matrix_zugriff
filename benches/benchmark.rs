@@ -4,6 +4,7 @@ use zugriffszeit::zahlentyp::Zahlentyp;
 use zugriffszeit::varianten_1d::*;
 use zugriffszeit::varianten_2d::*;
 use zugriffszeit::eingabe::erzeugen;
+use core_affinity::{CoreId, get_core_ids, set_for_current};
 
 /*
     Benchmark mit Criterion für 2D Matrixmultiplikation durchführen
@@ -14,8 +15,10 @@ fn benchmark_2d<T: Zahlentyp>(einstellungen: &mut Criterion) {
     // Jeder Benchmark wird 100 mal durchgeführt
     gruppe.sample_size(100);
 
+    let kern: Vec<CoreId> = get_core_ids().unwrap();
+
     // Matrixgrößen für Benchmark erzeugen
-    let testen: Vec<usize> = erzeugen(1, 256);
+    let testen: Vec<usize> = erzeugen(2, 4200);
     
     for n in testen {
         // 2D Matrizen mit Zufallswerten füllen
@@ -35,6 +38,7 @@ fn benchmark_2d<T: Zahlentyp>(einstellungen: &mut Criterion) {
 
         // Basis Variante
         gruppe.bench_with_input(BenchmarkId::new("Basis", n), &n, |messen, &n| {
+            set_for_current(kern[0]);
             messen.iter(|| {
                 basis_2d(black_box(&a), black_box(&b,), black_box(&mut c), black_box(n));
             });
@@ -42,6 +46,7 @@ fn benchmark_2d<T: Zahlentyp>(einstellungen: &mut Criterion) {
 
         // Variante mit Zeilenformat mit len() im Schleifenkopf
         gruppe.bench_with_input(BenchmarkId::new("Variante len()", n), &n, |messen, _| {
+            set_for_current(kern[0]);
             messen.iter(|| {
                 basis_lenge_2d(black_box(&a), black_box(&b,), black_box(&mut c));
             });
@@ -49,6 +54,7 @@ fn benchmark_2d<T: Zahlentyp>(einstellungen: &mut Criterion) {
 
         // Variante mit Slice
         gruppe.bench_with_input(BenchmarkId::new("Slice", n), &n, |messen, &n| {
+            set_for_current(kern[0]);
             messen.iter(|| {
                 slice_2d(black_box(&a), black_box(&b,), black_box(&mut c), black_box(n));
             });
@@ -56,6 +62,7 @@ fn benchmark_2d<T: Zahlentyp>(einstellungen: &mut Criterion) {
 
         // Variante mit Iterator
         gruppe.bench_with_input(BenchmarkId::new("Iterator", n), &n, |messen, &n| {
+            set_for_current(kern[0]);
             messen.iter(|| {
                 iterator_2d(black_box(&a), black_box(&b,), black_box(&mut c), black_box(n));
             });
@@ -63,6 +70,7 @@ fn benchmark_2d<T: Zahlentyp>(einstellungen: &mut Criterion) {
 
         // Variante mit split_at
         gruppe.bench_with_input(BenchmarkId::new("Split", n), &n, |messen, &n| {
+            set_for_current(kern[0]);
             messen.iter(|| {
                 split_at_2d(black_box(&a), black_box(&b,), black_box(&mut c), black_box(n));
             });
@@ -70,6 +78,7 @@ fn benchmark_2d<T: Zahlentyp>(einstellungen: &mut Criterion) {
 
         // Variante mit unsafe
         gruppe.bench_with_input(BenchmarkId::new("unsafe", n), &n, |messen, &n| {
+            set_for_current(kern[0]);
             messen.iter(|| {
                 unsicher_2d(black_box(&a), black_box(&b,), black_box(&mut c), black_box(n));
             });
@@ -89,6 +98,9 @@ fn benchmark_1d<T: Zahlentyp>(einstellungen: &mut Criterion) {
     let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group(format!("1D Matrix: {}", T::type_name()));
     // Jeder Benchmark wird 100 mal durchgeführt
     gruppe.sample_size(100);
+
+
+    let kern: Vec<CoreId> = get_core_ids().unwrap();
 
     // Matrixgrößen für Benchmark erzeugen
     let testen: Vec<usize> = erzeugen(1, 256);
@@ -111,6 +123,7 @@ fn benchmark_1d<T: Zahlentyp>(einstellungen: &mut Criterion) {
 
         // Basis Variante
         gruppe.bench_with_input(BenchmarkId::new("Basis", n), &n, |messen, &n| {
+            set_for_current(kern[0]);
             messen.iter(|| {
                 basis_1d(black_box(&a), black_box(&b,), black_box(&mut c), black_box(n));
             });
@@ -118,6 +131,7 @@ fn benchmark_1d<T: Zahlentyp>(einstellungen: &mut Criterion) {
 
         // Variante mit Zeilenformat mit len() im Schleifenkopf
         gruppe.bench_with_input(BenchmarkId::new("Variante len()", n), &n, |messen, _| {
+            set_for_current(kern[0]);
             messen.iter(|| {
                 basis_lenge_1d(black_box(&a), black_box(&b,), black_box(&mut c));
             });
@@ -125,6 +139,7 @@ fn benchmark_1d<T: Zahlentyp>(einstellungen: &mut Criterion) {
 
         // Variante mit Slice
         gruppe.bench_with_input(BenchmarkId::new("Slice", n), &n, |messen, &n| {
+            set_for_current(kern[0]);
             messen.iter(|| {
                 slice_1d(black_box(&a), black_box(&b,), black_box(&mut c), black_box(n));
             });
@@ -132,6 +147,7 @@ fn benchmark_1d<T: Zahlentyp>(einstellungen: &mut Criterion) {
 
         // Variante mit Iterator
         gruppe.bench_with_input(BenchmarkId::new("Iterator", n), &n, |messen, &n| {
+            set_for_current(kern[0]);
             messen.iter(|| {
                 iterator_1d(black_box(&a), black_box(&b,), black_box(&mut c), black_box(n));
             });
@@ -139,6 +155,7 @@ fn benchmark_1d<T: Zahlentyp>(einstellungen: &mut Criterion) {
 
         // Variante mit split_at
         gruppe.bench_with_input(BenchmarkId::new("Split", n), &n, |messen, &n| {
+            set_for_current(kern[0]);
             messen.iter(|| {
                 split_at_1d(black_box(&a), black_box(&b,), black_box(&mut c), black_box(n));
             });
@@ -146,6 +163,7 @@ fn benchmark_1d<T: Zahlentyp>(einstellungen: &mut Criterion) {
 
         // Variante mit unsafe
         gruppe.bench_with_input(BenchmarkId::new("unsafe", n), &n, |messen, &n| {
+            set_for_current(kern[0]);
             messen.iter(|| {
                 unsicher_1d(black_box(&a), black_box(&b,), black_box(&mut c), black_box(n));
             });
@@ -185,11 +203,11 @@ fn benchmark_i32(einstellungen: &mut Criterion) {
 
 // Benchmark mit verschiedenen Datentypen ausführen
 fn benchmark_i64(einstellungen: &mut Criterion) {
-    println!("\nBenchmark mit Datentyp i32\n");
+    println!("\nBenchmark mit Datentyp i64\n");
     sleep(Duration::from_secs(5));
 
-    benchmark_2d::<i32>(einstellungen);
-    benchmark_1d::<i32>(einstellungen);
+    benchmark_2d::<i64>(einstellungen);
+    benchmark_1d::<i64>(einstellungen);
 }
 
 // Benchmark mit verschiedenen Datentypen ausführen
