@@ -3,7 +3,6 @@ use std::{hint::black_box, thread::sleep, time::Duration};
 use zugriffszeit::zahlentyp::Zahlentyp;
 use zugriffszeit::varianten_1d::*;
 use zugriffszeit::varianten_2d::*;
-use zugriffszeit::eingabe::erzeugen;
 use core_affinity::{CoreId, get_core_ids, set_for_current};
 
 /*
@@ -13,12 +12,16 @@ fn benchmark_2d<T: Zahlentyp>(einstellungen: &mut Criterion) {
     // Benchmarks zu einer Gruppe zusammenfasen für Auswertung
     let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group(format!("2D Matrix: {}", T::type_name()));
     // Jeder Benchmark wird 100 mal durchgeführt
-    gruppe.sample_size(100);
+    gruppe.sample_size(50);
 
+    // 3 Stunden zeit
+    gruppe.measurement_time(Duration::from_secs(3 * 60 * 60));
+
+    // Kerne zum pinnen der Funktionen beim Benchmarking
     let kern: Vec<CoreId> = get_core_ids().unwrap();
 
     // Matrixgrößen für Benchmark erzeugen
-    let testen: Vec<usize> = erzeugen(2, 4200);
+    let testen: Vec<usize> = vec![4, 8, 11, 16, 25, 32, 64, 91, 128, 256, 357, 512, 787, 1024, 2189, 3100, 4096];
     
     for n in testen {
         // 2D Matrizen mit Zufallswerten füllen
@@ -97,13 +100,16 @@ fn benchmark_1d<T: Zahlentyp>(einstellungen: &mut Criterion) {
     // Benchmarks zu einer Gruppe zusammenfasen für Auswertung
     let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group(format!("1D Matrix: {}", T::type_name()));
     // Jeder Benchmark wird 100 mal durchgeführt
-    gruppe.sample_size(100);
+    gruppe.sample_size(50);
 
+    // 3 Stunden zeit
+    gruppe.measurement_time(Duration::from_secs(3 * 60 * 60));
 
+    // Kerne zum pinnen der Funktionen beim Benchmarking
     let kern: Vec<CoreId> = get_core_ids().unwrap();
 
     // Matrixgrößen für Benchmark erzeugen
-    let testen: Vec<usize> = erzeugen(1, 256);
+    let testen: Vec<usize> = vec![4, 8, 11, 16, 25, 32, 64, 91, 128, 256, 357, 512, 787, 1024, 2048, 3103, 4096];
     
     for n in testen {
         // 1D Matrizen mit Zufallswerten füllen
@@ -228,6 +234,8 @@ fn benchmark_f64(einstellungen: &mut Criterion) {
     benchmark_1d::<f64>(einstellungen);
 }
 
+// Benchmarkgruppe namens Matrix mit den entsprechenden Funktionen erstellen
 criterion_group!(matrix, benchmark_u32, benchmark_u64, benchmark_i32, benchmark_i64, benchmark_f32, benchmark_f64);
 
+// führt die Benchmarks in der Gruppe matrix aus  
 criterion_main!(matrix);
