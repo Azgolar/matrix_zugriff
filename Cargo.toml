@@ -6,7 +6,6 @@ edition = "2024"
 [dependencies]
 core_affinity = "0.8"
 rand = "0.9"
-criterion = {version = "0.6", features = ["html_reports"]}
 
 [dev-dependencies]
 # Criterion mit Ergebnissen in HTML benutzen
