@@ -32,7 +32,7 @@ const MATRITZEN: &[usize] = &[4, 8, 11, 16, 25, 32, 64, 91, 128, 256, 357, 512, 
 */
 
 fn eins_1d(einstellungen: &mut Criterion) {
-    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D basis");
+    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D Matrixmultiplikation");
     
     // Anzahl der Durchläufe
     gruppe.sample_size(ANZAHL);
@@ -49,7 +49,7 @@ fn eins_1d(einstellungen: &mut Criterion) {
         let b: Vec<f64> = zufallsmatrix_1d(n);
         let mut c: Vec<f64> = vec![0.0; n * n];
 
-        gruppe.bench_with_input(BenchmarkId::new("basis_1d", n), &n, | messen, &n| {
+        gruppe.bench_with_input(BenchmarkId::new("basis", n), &n, | messen, &n| {
             // Benchmark auf logischen Kern 0 pinnen
             set_for_current(kerne[0]);
 
@@ -66,7 +66,7 @@ fn eins_1d(einstellungen: &mut Criterion) {
 }
 
 fn zwei_1d(einstellungen: &mut Criterion) {
-    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D basis");
+    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D Matrixmultiplikation");
     
     gruppe.sample_size(ANZAHL);
     gruppe.measurement_time(Duration::from_secs(ZEIT));
@@ -78,7 +78,7 @@ fn zwei_1d(einstellungen: &mut Criterion) {
         let b: Vec<f64> = zufallsmatrix_1d(n);
         let mut c: Vec<f64> = vec![0.0; n * n];
 
-        gruppe.bench_with_input(BenchmarkId::new("basis_1d", n), &n, | messen, _| {
+        gruppe.bench_with_input(BenchmarkId::new("basis_länge", n), &n, | messen, _| {
             set_for_current(kerne[0]);
 
             messen.iter(|| {
@@ -90,7 +90,7 @@ fn zwei_1d(einstellungen: &mut Criterion) {
 }
 
 fn drei_1d(einstellungen: &mut Criterion) {
-    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D basis");
+    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D Matrixmultiplikation");
     
     gruppe.sample_size(ANZAHL);
     gruppe.measurement_time(Duration::from_secs(ZEIT));
@@ -102,7 +102,7 @@ fn drei_1d(einstellungen: &mut Criterion) {
         let b: Vec<f64> = zufallsmatrix_1d(n);
         let mut c: Vec<f64> = vec![0.0; n * n];
 
-        gruppe.bench_with_input(BenchmarkId::new("basis_1d", n), &n, | messen, &n| {
+        gruppe.bench_with_input(BenchmarkId::new("split_at", n), &n, | messen, &n| {
             set_for_current(kerne[0]);
 
             messen.iter(|| {
@@ -114,7 +114,7 @@ fn drei_1d(einstellungen: &mut Criterion) {
 }
 
 fn vier_1d(einstellungen: &mut Criterion) {
-    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D basis");
+    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D Matrixmultiplikation");
     
     gruppe.sample_size(ANZAHL);
     gruppe.measurement_time(Duration::from_secs(ZEIT));
@@ -126,7 +126,7 @@ fn vier_1d(einstellungen: &mut Criterion) {
         let b: Vec<f64> = zufallsmatrix_1d(n);
         let mut c: Vec<f64> = vec![0.0; n * n];
 
-        gruppe.bench_with_input(BenchmarkId::new("basis_1d", n), &n, | messen, &n| {
+        gruppe.bench_with_input(BenchmarkId::new("slice", n), &n, | messen, &n| {
             set_for_current(kerne[0]);
 
             messen.iter(|| {
@@ -138,7 +138,7 @@ fn vier_1d(einstellungen: &mut Criterion) {
 }
 
 fn fünf_1d(einstellungen: &mut Criterion) {
-    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D basis");
+    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D Matrixmultiplikation");
     
     gruppe.sample_size(ANZAHL);
     gruppe.measurement_time(Duration::from_secs(ZEIT));
@@ -150,7 +150,7 @@ fn fünf_1d(einstellungen: &mut Criterion) {
         let b: Vec<f64> = zufallsmatrix_1d(n);
         let mut c: Vec<f64> = vec![0.0; n * n];
 
-        gruppe.bench_with_input(BenchmarkId::new("basis_1d", n), &n, | messen, &n| {
+        gruppe.bench_with_input(BenchmarkId::new("iterator", n), &n, | messen, &n| {
             set_for_current(kerne[0]);
 
             messen.iter(|| {
@@ -162,7 +162,7 @@ fn fünf_1d(einstellungen: &mut Criterion) {
 }
 
 fn sechs_1d(einstellungen: &mut Criterion) {
-    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D basis");
+    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D Matrixmultiplikation");
     
     gruppe.sample_size(ANZAHL);
     gruppe.measurement_time(Duration::from_secs(ZEIT));
@@ -174,7 +174,7 @@ fn sechs_1d(einstellungen: &mut Criterion) {
         let b: Vec<f64> = zufallsmatrix_1d(n);
         let mut c: Vec<f64> = vec![0.0; n * n];
 
-        gruppe.bench_with_input(BenchmarkId::new("basis_1d", n), &n, | messen, &n| {
+        gruppe.bench_with_input(BenchmarkId::new("unsicher", n), &n, | messen, &n| {
             set_for_current(kerne[0]);
 
             messen.iter(|| {
@@ -194,7 +194,7 @@ fn sechs_1d(einstellungen: &mut Criterion) {
 */
 
 fn eins_2d(einstellungen: &mut Criterion) {
-    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D basis");
+    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("2D Matrixmultiplikation");
     
     gruppe.sample_size(ANZAHL);
     gruppe.measurement_time(Duration::from_secs(ZEIT));
@@ -206,7 +206,7 @@ fn eins_2d(einstellungen: &mut Criterion) {
         let b: Vec<Vec<f64>> = zufallsmatrix_2d(n);
         let mut c: Vec<Vec<f64>> = vec![vec![0.0; n]; n];
 
-        gruppe.bench_with_input(BenchmarkId::new("basis_1d", n), &n, | messen, &n| {
+        gruppe.bench_with_input(BenchmarkId::new("basis", n), &n, | messen, &n| {
             set_for_current(kerne[0]);
 
             messen.iter(|| {
@@ -218,7 +218,7 @@ fn eins_2d(einstellungen: &mut Criterion) {
 }
 
 fn zwei_2d(einstellungen: &mut Criterion) {
-    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D basis");
+    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("2D Matrixmultiplikation");
     
     gruppe.sample_size(ANZAHL);
     gruppe.measurement_time(Duration::from_secs(ZEIT));
@@ -230,7 +230,7 @@ fn zwei_2d(einstellungen: &mut Criterion) {
         let b: Vec<Vec<f64>> = zufallsmatrix_2d(n);
         let mut c: Vec<Vec<f64>> = vec![vec![0.0; n]; n];
 
-        gruppe.bench_with_input(BenchmarkId::new("basis_1d", n), &n, | messen, _| {
+        gruppe.bench_with_input(BenchmarkId::new("basis_länge", n), &n, | messen, _| {
             set_for_current(kerne[0]);
 
             messen.iter(|| {
@@ -242,7 +242,7 @@ fn zwei_2d(einstellungen: &mut Criterion) {
 }
 
 fn drei_2d(einstellungen: &mut Criterion) {
-    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D basis");
+    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("2D Matrixmultiplikation");
     
     gruppe.sample_size(ANZAHL);
     gruppe.measurement_time(Duration::from_secs(ZEIT));
@@ -254,31 +254,7 @@ fn drei_2d(einstellungen: &mut Criterion) {
         let b: Vec<Vec<f64>> = zufallsmatrix_2d(n);
         let mut c: Vec<Vec<f64>> = vec![vec![0.0; n]; n];
 
-        gruppe.bench_with_input(BenchmarkId::new("basis_1d", n), &n, | messen, &n| {
-            set_for_current(kerne[0]);
-
-            messen.iter(|| {
-                slice_2d(black_box(&a), black_box(&b), black_box(&mut c), black_box(n));
-            });
-        });
-    }
-    gruppe.finish();
-}
-
-fn vier_2d(einstellungen: &mut Criterion) {
-    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D basis");
-    
-    gruppe.sample_size(ANZAHL);
-    gruppe.measurement_time(Duration::from_secs(ZEIT));
-
-    let kerne: Vec<CoreId> = get_core_ids().unwrap();
-
-    for &n in MATRITZEN {
-        let a: Vec<Vec<f64>> = zufallsmatrix_2d(n);
-        let b: Vec<Vec<f64>> = zufallsmatrix_2d(n);
-        let mut c: Vec<Vec<f64>> = vec![vec![0.0; n]; n];
-
-        gruppe.bench_with_input(BenchmarkId::new("basis_1d", n), &n, | messen, &n| {
+        gruppe.bench_with_input(BenchmarkId::new("iterator", n), &n, | messen, &n| {
             set_for_current(kerne[0]);
 
             messen.iter(|| {
@@ -289,8 +265,8 @@ fn vier_2d(einstellungen: &mut Criterion) {
     gruppe.finish();
 }
 
-fn fünf_2d(einstellungen: &mut Criterion) {
-    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D basis");
+fn vier_2d(einstellungen: &mut Criterion) {
+    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("2D Matrixmultiplikation");
     
     gruppe.sample_size(ANZAHL);
     gruppe.measurement_time(Duration::from_secs(ZEIT));
@@ -302,7 +278,31 @@ fn fünf_2d(einstellungen: &mut Criterion) {
         let b: Vec<Vec<f64>> = zufallsmatrix_2d(n);
         let mut c: Vec<Vec<f64>> = vec![vec![0.0; n]; n];
 
-        gruppe.bench_with_input(BenchmarkId::new("basis_1d", n), &n, | messen, &n| {
+        gruppe.bench_with_input(BenchmarkId::new("slice", n), &n, | messen, &n| {
+            set_for_current(kerne[0]);
+
+            messen.iter(|| {
+                slice_2d(black_box(&a), black_box(&b), black_box(&mut c), black_box(n));
+            });
+        });
+    }
+    gruppe.finish();
+}
+
+fn fünf_2d(einstellungen: &mut Criterion) {
+    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("2D Matrixmultiplikation");
+    
+    gruppe.sample_size(ANZAHL);
+    gruppe.measurement_time(Duration::from_secs(ZEIT));
+
+    let kerne: Vec<CoreId> = get_core_ids().unwrap();
+
+    for &n in MATRITZEN {
+        let a: Vec<Vec<f64>> = zufallsmatrix_2d(n);
+        let b: Vec<Vec<f64>> = zufallsmatrix_2d(n);
+        let mut c: Vec<Vec<f64>> = vec![vec![0.0; n]; n];
+
+        gruppe.bench_with_input(BenchmarkId::new("split_at", n), &n, | messen, &n| {
             set_for_current(kerne[0]);
 
             messen.iter(|| {
@@ -314,7 +314,7 @@ fn fünf_2d(einstellungen: &mut Criterion) {
 }
 
 fn sechs_2d(einstellungen: &mut Criterion) {
-    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("1D basis");
+    let mut gruppe: criterion::BenchmarkGroup<'_, criterion::measurement::WallTime> = einstellungen.benchmark_group("2D Matrixmultiplikation");
     
     gruppe.sample_size(ANZAHL);
     gruppe.measurement_time(Duration::from_secs(ZEIT));
@@ -326,7 +326,7 @@ fn sechs_2d(einstellungen: &mut Criterion) {
         let b: Vec<Vec<f64>> = zufallsmatrix_2d(n);
         let mut c: Vec<Vec<f64>> = vec![vec![0.0; n]; n];
 
-        gruppe.bench_with_input(BenchmarkId::new("basis_1d", n), &n, | messen, &n| {
+        gruppe.bench_with_input(BenchmarkId::new("unsicher", n), &n, | messen, &n| {
             set_for_current(kerne[0]);
 
             messen.iter(|| {
