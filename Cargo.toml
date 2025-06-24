@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 core_affinity = "0.8"
 rand = "0.9"
+criterion = {version = "0.6", features = ["html_reports"]}
 
 [dev-dependencies]
 # Criterion mit Ergebnissen in HTML benutzen
@@ -15,3 +16,52 @@ criterion = {version = "0.6", features = ["html_reports"]}
 name = "benchmark"
 # main Funktion von Criterion verwenden, da die native Rust main für Benchmarks noch immer nicht stabil ist
 harness= false
+
+# einzelne Binaries erzeugen für die Analyse mit perf stat
+[[bin]]
+name = "basis_1d"
+path = "src/bin/ein_d_matrix/basis_1d.rs"
+
+[[bin]]
+name = "basis_länge_1d"
+path = "src/bin/ein_d_matrix/basis_laenge_1d.rs"
+
+[[bin]]
+name = "split_at_1d"
+path = "src/bin/ein_d_matrix/split_at_1d.rs"
+
+[[bin]]
+name = "slice_1d"
+path = "src/bin/ein_d_matrix/slice_1d.rs"
+
+[[bin]]
+name = "iterator_1d"
+path = "src/bin/ein_d_matrix/iterator_1d.rs"
+
+[[bin]]
+name = "unsicher_1d"
+path = "src/bin/ein_d_matrix/unsicher_1d.rs"
+
+[[bin]]
+name = "basis_2d"
+path = "src/bin/zwei_d_matrix/basis_2d.rs"
+
+[[bin]]
+name = "basis_länge_2d"
+path = "src/bin/zwei_d_matrix/basis_laenge_2d.rs"
+
+[[bin]]
+name = "split_at_2d"
+path = "src/bin/zwei_d_matrix/split_at_2d.rs"
+
+[[bin]]
+name = "slice_2d"
+path = "src/bin/zwei_d_matrix/slice_2d.rs"
+
+[[bin]]
+name = "iterator_2d"
+path = "src/bin/zwei_d_matrix/iterator_2d.rs"
+
+[[bin]]
+name = "unsicher_2d"
+path = "src/bin/zwei_d_matrix/unsicher_2d.rs"
