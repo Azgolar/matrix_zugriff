@@ -20,7 +20,7 @@ mod tests {
     
 
     // wandelt einen 1D Vektor zu nxn 2D Matrix um
-    pub fn umwandeln(v: &Vec<f64>, n: usize) -> Vec<Vec<f64>> {
+    fn umwandeln(v: &Vec<f64>, n: usize) -> Vec<Vec<f64>> {
         let mut matrix: Vec<Vec<f64>> = vec![vec![0f64; n]; n];
         for i in 0..n {
             for j in 0..n {
@@ -31,7 +31,7 @@ mod tests {
     } 
 
     // vergleicht zwei 2D Matrizen 
-    pub fn vergleich(a: &Vec<Vec<f64>>, b: &Vec<Vec<f64>>, n: usize) -> bool {
+    fn vergleich(a: &Vec<Vec<f64>>, b: &Vec<Vec<f64>>, n: usize) -> bool {
         let genauigkeit = 1e-10;
         for i in 0..n {
             for j in 0..n {
@@ -56,58 +56,67 @@ mod tests {
             let b: Vec<Vec<f64>> = zufallsmatrix_2d(n);
 
             // vergleich aller Implemtierungen mit der Standardimplementierung im 2D Fall
-            let mut ergebnis: Vec<Vec<f64>> = vec![vec![0.0; n]; n];
-            basis_2d(&a, &b, &mut ergebnis, n);
+            let mut v: Vec<Vec<f64>> = vec![vec![0.0; n]; n];
+            basis_2d(&a, &b, &mut v, n);
 
             // umwandeln in 1d Matrizen
             let d: Vec<f64> = a.iter().flatten().copied().collect();
             let e: Vec<f64> = b.iter().flatten().copied().collect();
-            let mut f: Vec<f64> = vec![0.0; n * n];
+            let mut ergebnis: Vec<f64> = vec![0.0; n * n];
 
-            basis_1d(&d, &e, &mut f, n);
-            assert!(vergleich(&umwandeln(&f, n), &ergebnis, n), "basis_1d ist falsch für n = {}", n);
+            basis_1d(&d, &e, &mut ergebnis, n);
+            assert!(vergleich(&umwandeln(&ergebnis, n), &v, n), "basis_1d.rs ist falsch für n = {}", n);
 
-            basis_länge_1d(&d, &e, &mut f);
-            assert!(vergleich(&umwandeln(&f, n), &ergebnis, n), "basis_lenge_1d ist falsch für n = {}", n);
+            ergebnis = vec![0.0; n * n];
+            basis_länge_1d(&d, &e, &mut ergebnis);
+            assert!(vergleich(&umwandeln(&ergebnis, n), &v, n), "basis_laenge_1d.rs ist falsch für n = {}", n);
 
-            slice_1d(&d, &e, &mut f, n);
-            assert!(vergleich(&umwandeln(&f, n), &ergebnis, n), "slice_at_1d ist falsch für n = {}", n);
+            ergebnis = vec![0.0; n * n];
+            slice_1d(&d, &e, &mut ergebnis, n);
+            assert!(vergleich(&umwandeln(&ergebnis, n), &v, n), "slice_at_1d.rs ist falsch für n = {}", n);
 
-            iterator_1d(&d, &e, &mut f, n);
-            assert!(vergleich(&umwandeln(&f, n), &ergebnis, n), "iterator_1d ist falsch für n = {}", n);
+            ergebnis = vec![0.0; n * n];
+            iterator_1d(&d, &e, &mut ergebnis, n);
+            assert!(vergleich(&umwandeln(&ergebnis, n), &v, n), "iterator_1d.rs ist falsch für n = {}", n);
 
-            split_at_1d(&d, &e, &mut f, n);
-            assert!(vergleich(&umwandeln(&f, n), &ergebnis, n), "slit_at_1d ist falsch für n = {}", n);
+            ergebnis = vec![0.0; n * n];
+            split_at_1d(&d, &e, &mut ergebnis, n);
+            assert!(vergleich(&umwandeln(&ergebnis, n), &v, n), "split_at_1d.rs ist falsch für n = {}", n);
 
-            unsicher_1d(&d, &e, &mut f, n);
-            assert!(vergleich(&umwandeln(&f, n), &ergebnis, n), "assert_1d ist falsch für n = {}", n);
+            ergebnis = vec![0.0; n * n];
+            unsicher_1d(&d, &e, &mut ergebnis, n);
+            assert!(vergleich(&umwandeln(&ergebnis, n), &v, n), "unsicher_1d.rs ist falsch für n = {}", n);
         }
 
-        // testen der Funktionen für 1D Matrizen
+        // testen der Funktionen für 2D Matrizen
         for &n in &größen {
             println!("2D: n = {}", n);
             let a: Vec<Vec<f64>> = zufallsmatrix_2d(n);
             let b: Vec<Vec<f64>> = zufallsmatrix_2d(n);
-            let mut c: Vec<Vec<f64>> = vec![vec![0.0; n]; n];
+            let mut ergebnis: Vec<Vec<f64>> = vec![vec![0.0; n]; n];
 
             // vergleich aller Implemtierungen mit der Standardimplementierung im 2D Fall
-            let mut ergebnis: Vec<Vec<f64>> = vec![vec![0.0; n]; n];
-            basis_2d(&a, &b, &mut ergebnis, n);
+            let mut v: Vec<Vec<f64>> = vec![vec![0.0; n]; n];
+            basis_2d(&a, &b, &mut v, n);
 
-            basis_länge_2d(&a, &b, &mut c);
-            assert!(vergleich(&c, &ergebnis, n), "basis_lenge_2d ist falsch für n = {}", n);
+            basis_länge_2d(&a, &b, &mut ergebnis);
+            assert!(vergleich(&ergebnis, &v, n), "basis_lenge_2d.rs ist falsch für n = {}", n);
 
-            slice_2d(&a, &b, &mut c, n);
-            assert!(vergleich(&c, &ergebnis, n), "slice_2d ist falsch für n = {}", n);
+            ergebnis = vec![vec![0.0; n]; n];
+            slice_2d(&a, &b, &mut ergebnis, n);
+            assert!(vergleich(&ergebnis, &v, n), "slice_2d.rs ist falsch für n = {}", n);
 
-            iterator_2d(&a, &b, &mut c, n);
-            assert!(vergleich(&c, &ergebnis, n), "iterator_2d ist falsch für n = {}", n);
+            ergebnis = vec![vec![0.0; n]; n];
+            iterator_2d(&a, &b, &mut ergebnis, n);
+            assert!(vergleich(&ergebnis, &v, n), "iterator_2d.rs ist falsch für n = {}", n);
 
-            split_at_2d(&a, &b, &mut c, n);
-            assert!(vergleich(&c, &ergebnis, n), "split_at_2d ist falsch für n = {}", n);
+            ergebnis = vec![vec![0.0; n]; n];
+            split_at_2d(&a, &b, &mut ergebnis, n);
+            assert!(vergleich(&ergebnis, &v, n), "split_at_2d.rs ist falsch für n = {}", n);
 
-            unsicher_2d(&a, &b, &mut c, n);
-            assert!(vergleich(&c, &ergebnis, n), "unsicher_2d ist falsch für n = {}", n);
+            ergebnis = vec![vec![0.0; n]; n];
+            unsicher_2d(&a, &b, &mut ergebnis, n);
+            assert!(vergleich(&ergebnis, &v, n), "unsicher_2d.rs ist falsch für n = {}", n);
         }
 
         println!("\nAlle Funktionen sind korrekt");
