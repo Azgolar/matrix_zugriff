@@ -4,20 +4,20 @@ use core_affinity::{CoreId, get_core_ids, set_for_current};
 use zugriffszeit::{matrix::{zufallsmatrix_1d, zufallsmatrix_2d}};
 
 // Import für 1D Fall
-use zugriffszeit::bin::ein_d_matrix::basis_1d::basis_1d;
-use zugriffszeit::bin::ein_d_matrix::basis_laenge_1d::basis_länge_1d;
-use zugriffszeit::bin::ein_d_matrix::iterator_1d::iterator_1d;
-use zugriffszeit::bin::ein_d_matrix::slice_1d::slice_1d;
-use zugriffszeit::bin::ein_d_matrix::split_at_1d::split_at_1d;
-use zugriffszeit::bin::ein_d_matrix::unsicher_1d::unsicher_1d;
+use zugriffszeit::ein_d_matrix::basis_1d::basis_1d;
+use zugriffszeit::ein_d_matrix::basis_laenge_1d::basis_länge_1d;
+use zugriffszeit::ein_d_matrix::iterator_1d::iterator_1d;
+use zugriffszeit::ein_d_matrix::slice_1d::slice_1d;
+use zugriffszeit::ein_d_matrix::split_at_1d::split_at_1d;
+use zugriffszeit::ein_d_matrix::unsicher_1d::unsicher_1d;
 
 // Import für 2D Fall
-use zugriffszeit::bin::zwei_d_matrix::basis_2d::basis_2d;
-use zugriffszeit::bin::zwei_d_matrix::basis_laenge_2d::basis_länge_2d;
-use zugriffszeit::bin::zwei_d_matrix::iterator_2d::iterator_2d;
-use zugriffszeit::bin::zwei_d_matrix::slice_2d::slice_2d;
-use zugriffszeit::bin::zwei_d_matrix::split_at_2d::split_at_2d;
-use zugriffszeit::bin::zwei_d_matrix::unsicher_2d::unsicher_2d;
+use zugriffszeit::zwei_d_matrix::basis_2d::basis_2d;
+use zugriffszeit::zwei_d_matrix::basis_laenge_2d::basis_länge_2d;
+use zugriffszeit::zwei_d_matrix::iterator_2d::iterator_2d;
+use zugriffszeit::zwei_d_matrix::slice_2d::slice_2d;
+use zugriffszeit::zwei_d_matrix::split_at_2d::split_at_2d;
+use zugriffszeit::zwei_d_matrix::unsicher_2d::unsicher_2d;
 
 /*
     Einstellungen für alle Benchmarks
@@ -25,7 +25,7 @@ use zugriffszeit::bin::zwei_d_matrix::unsicher_2d::unsicher_2d;
 */ 
 const ANZAHL: usize = 10;     // Anzahl der Durchläufe
 const ZEIT: u64 = 60;       // maixmale Zeit in Sekunden je Durchlauf
-const MATRITZEN: &[usize] = &[4, 8, 11, 16, 25, 32, 64, 91, 128, 256, 357, 512, 787, 1024, 2189, 3100, 4096]; // Matrixgrößen
+const MATRITZEN: &[usize] = &[4, 8, 11, 16, 25, 32, 64, 91, 128, 256, 357, 512, 787, 1024, 2189]; // Matrixgrößen
 
 /*
     1D Benchmarks

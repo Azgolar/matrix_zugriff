@@ -3,20 +3,20 @@ mod tests {
     use crate::matrix::zufallsmatrix_2d;
 
     // Import für 1D Fall
-    use crate::bin::ein_d_matrix::basis_1d::basis_1d;
-    use crate::bin::ein_d_matrix::basis_laenge_1d::basis_länge_1d;
-    use crate::bin::ein_d_matrix::iterator_1d::iterator_1d;
-    use crate::bin::ein_d_matrix::slice_1d::slice_1d;
-    use crate::bin::ein_d_matrix::split_at_1d::split_at_1d;
-    use crate::bin::ein_d_matrix::unsicher_1d::unsicher_1d;
+    use crate::ein_d_matrix::basis_1d::basis_1d;
+    use crate::ein_d_matrix::basis_laenge_1d::basis_länge_1d;
+    use crate::ein_d_matrix::iterator_1d::iterator_1d;
+    use crate::ein_d_matrix::slice_1d::slice_1d;
+    use crate::ein_d_matrix::split_at_1d::split_at_1d;
+    use crate::ein_d_matrix::unsicher_1d::unsicher_1d;
 
     // Import für 2D Fall
-    use crate::bin::zwei_d_matrix::basis_2d::basis_2d;
-    use crate::bin::zwei_d_matrix::basis_laenge_2d::basis_länge_2d;
-    use crate::bin::zwei_d_matrix::iterator_2d::iterator_2d;
-    use crate::bin::zwei_d_matrix::slice_2d::slice_2d;
-    use crate::bin::zwei_d_matrix::split_at_2d::split_at_2d;
-    use crate::bin::zwei_d_matrix::unsicher_2d::unsicher_2d;
+    use crate::zwei_d_matrix::basis_2d::basis_2d;
+    use crate::zwei_d_matrix::basis_laenge_2d::basis_länge_2d;
+    use crate::zwei_d_matrix::iterator_2d::iterator_2d;
+    use crate::zwei_d_matrix::slice_2d::slice_2d;
+    use crate::zwei_d_matrix::split_at_2d::split_at_2d;
+    use crate::zwei_d_matrix::unsicher_2d::unsicher_2d;
     
 
     // wandelt einen 1D Vektor zu nxn 2D Matrix um
@@ -49,9 +49,10 @@ mod tests {
         let größen: Vec<usize> = vec![6, 7, 14, 15, 32, 37, 50, 53, 64, 77, 90, 107, 126, 141, 180, 187, 200, 211, 256, 273, 300];
         println!("\nTesten mit Matrizen der Größe = {:?}\n", größen);
 
-        // testen der Funktionen für 1D Matrizen 
+        println!("\nTesten der Funktionen mit 1D Matrizen");
+        let mut i: u32 = 1; 
         for &n in &größen {
-            println!("1D: n = {}", n);
+            println!("{}/{}", i, größen.len());
             let a: Vec<Vec<f64>> = zufallsmatrix_2d(n);
             let b: Vec<Vec<f64>> = zufallsmatrix_2d(n);
 
@@ -86,11 +87,14 @@ mod tests {
             ergebnis = vec![0.0; n * n];
             unsicher_1d(&d, &e, &mut ergebnis, n);
             assert!(vergleich(&umwandeln(&ergebnis, n), &v, n), "unsicher_1d.rs ist falsch für n = {}", n);
+
+            i = i + 1;
         }
 
-        // testen der Funktionen für 2D Matrizen
+        println!("\nTesten der Funktionen mit 2D Matrizen");
+        i = 1;
         for &n in &größen {
-            println!("2D: n = {}", n);
+            println!("{}/{}", i, größen.len());
             let a: Vec<Vec<f64>> = zufallsmatrix_2d(n);
             let b: Vec<Vec<f64>> = zufallsmatrix_2d(n);
             let mut ergebnis: Vec<Vec<f64>> = vec![vec![0.0; n]; n];
@@ -117,6 +121,8 @@ mod tests {
             ergebnis = vec![vec![0.0; n]; n];
             unsicher_2d(&a, &b, &mut ergebnis, n);
             assert!(vergleich(&ergebnis, &v, n), "unsicher_2d.rs ist falsch für n = {}", n);
+
+            i = i + 1;
         }
 
         println!("\nAlle Funktionen sind korrekt");
